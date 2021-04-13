@@ -1,0 +1,27 @@
+<p-card class="card-style">
+    <form [formGroup]="formulario">
+        <div class="div-style">
+            <p-fieldset legend="Login" class="usuario-login">
+                <span class="p-float-label">
+                    <label for="username">Usuario:</label>
+                    <br />
+                    <input id="username" formControlName="username" class="username" type="text" pInputText>
+                </span>
+                <br />
+                <br />
+                <span class="p-float-label">
+                    <label for="password">Senha:</label>
+                    <br />
+                    <input id="password" formControlName="password" type="password" pInputText>
+                </span>
+
+            </p-fieldset>
+        </div>
+    </form>
+    <p-footer>
+        <button pButton type="button" label="Entrar" class="ui-button-success" (click)="entrar()">
+        </button>
+        <button pButton type="button" label="Cadastrar" class="ui-button-infor" (click)="cadastrar()">
+        </button>
+    </p-footer>
+</p-card>

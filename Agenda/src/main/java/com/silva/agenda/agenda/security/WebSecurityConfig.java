@@ -1,6 +1,7 @@
 package com.silva.agenda.agenda.security;
 
 import org.springframework.security.core.userdetails.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,22 +9,43 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.authorizeRequests()
+				.antMatchers("/", "/agenda").permitAll()
+				.anyRequest().authenticated()
+				.and()
+			.formLogin()
+				.loginPage("/login")
+				.permitAll()
+				.and()
+			.logout()
+				.permitAll();
+	}
 	
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
+		String password = bcrypt.encode("password");
 		UserDetails user =
 			 User.withDefaultPasswordEncoder()
 				.username("user")
-				.password("password")
+				.password(password)
 				.roles("USER")
 				.build();
+		
+		System.out.println("Bcrypt: " + password);
 
 		return new InMemoryUserDetailsManager(user);
 	}
