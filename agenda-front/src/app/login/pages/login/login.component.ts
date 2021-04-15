@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   public entrar() {
     this.login.username = this.formulario.get('username').value;
     this.login.password = this.formulario.get('password').value;
+    console.log(this.login);
 
     this.service.login(this.login).subscribe(
       sucesso => {

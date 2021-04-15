@@ -17,4 +17,6 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-
+
+jwt:
+  secret: user
